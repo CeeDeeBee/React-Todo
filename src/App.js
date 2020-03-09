@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
+import Search from "./components/Search";
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -9,7 +10,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: JSON.parse(localStorage.getItem('todos')) || []
+      todos: JSON.parse(localStorage.getItem('todos')) || [],
+      query: ""
     }
   }
 
@@ -39,6 +41,10 @@ class App extends React.Component {
     })
   }
 
+  updateQuery = query => {
+    this.setState({ query })
+  }
+
   componentDidUpdate() {
     localStorage.setItem('todos', JSON.stringify(this.state.todos));
   }
@@ -47,7 +53,8 @@ class App extends React.Component {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoList todos={this.state.todos} toggleCompleted={this.toggleCompleted} />
+        <Search query={this.state.query} updateQuery={this.updateQuery} />
+        <TodoList todos={this.state.todos} toggleCompleted={this.toggleCompleted} query={this.state.query} />
         <TodoForm addTodo={this.addTodo} clearCompleted={this.clearCompleted} />
       </div>
     );

@@ -9,13 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: [
-        {
-          task: 'Finish Todo Project',
-          id: Date.now(),
-          completed: false
-        }
-      ]
+      todos: JSON.parse(localStorage.getItem('todos')) || []
     }
   }
 
@@ -43,6 +37,10 @@ class App extends React.Component {
     this.setState({
       todos: this.state.todos.filter(todo => !todo.completed)
     })
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('todos', JSON.stringify(this.state.todos));
   }
 
   render() {
